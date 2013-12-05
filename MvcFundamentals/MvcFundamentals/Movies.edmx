@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MoviesModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="MoviesModelStoreContainer">
+          <EntitySet Name="Genre" EntityType="MoviesModel.Store.Genre" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Movie" EntityType="MoviesModel.Store.Movie" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Review" EntityType="MoviesModel.Store.Review" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Genre_Movie" Association="MoviesModel.Store.FK_Genre_Movie">
+            <End Role="Movie" EntitySet="Movie" />
+            <End Role="Genre" EntitySet="Genre" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Review_Movie" Association="MoviesModel.Store.FK_Review_Movie">
+            <End Role="Movie" EntitySet="Movie" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="25" />
+          <Property Name="MovieId" Type="int" />
+        </EntityType>
+        <EntityType Name="Movie">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ReleaseDate" Type="datetime" Nullable="false" />
+          <Property Name="Image" Type="varchar" MaxLength="50" />
+          <Property Name="Genre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Summary" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="Rating" Type="int" Nullable="false" />
+          <Property Name="Body" Type="varchar" MaxLength="500" />
+          <Property Name="Reviewer" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="MovieId" Type="int" />
+        </EntityType>
+        <Association Name="FK_Genre_Movie">
+          <End Role="Movie" Type="MoviesModel.Store.Movie" Multiplicity="0..1" />
+          <End Role="Genre" Type="MoviesModel.Store.Genre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movie">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Genre">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Review_Movie">
+          <End Role="Movie" Type="MoviesModel.Store.Movie" Multiplicity="0..1" />
+          <End Role="Review" Type="MoviesModel.Store.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movie">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MoviesModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MoviesEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Genres" EntityType="MoviesModel.Genre" />
+          <EntitySet Name="Movies" EntityType="MoviesModel.Movie" />
+          <EntitySet Name="Reviews" EntityType="MoviesModel.Review" />
+          <AssociationSet Name="FK_Review_Movie" Association="MoviesModel.FK_Review_Movie">
+            <End Role="Movie" EntitySet="Movies" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Genre_Movie" Association="MoviesModel.FK_Genre_Movie">
+            <End Role="Movie" EntitySet="Movies" />
+            <End Role="Genre" EntitySet="Genres" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="25" Unicode="true" FixedLength="false" />
+          <Property Type="Int32" Name="MovieId" />
+          <NavigationProperty Name="Movie" Relationship="MoviesModel.FK_Genre_Movie" FromRole="Genre" ToRole="Movie" />
+        </EntityType>
+        <EntityType Name="Movie">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="ReleaseDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Image" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Genre" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Reviews" Relationship="MoviesModel.FK_Review_Movie" FromRole="Movie" ToRole="Review" />
+          <NavigationProperty Name="Genres" Relationship="MoviesModel.FK_Genre_Movie" FromRole="Movie" ToRole="Genre" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Summary" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Rating" Type="Int32" Nullable="false" />
+          <Property Name="Body" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="Reviewer" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Type="Int32" Name="MovieId" />
+          <NavigationProperty Name="Movie" Relationship="MoviesModel.FK_Review_Movie" FromRole="Review" ToRole="Movie" />
+        </EntityType>
+        <Association Name="FK_Review_Movie">
+          <End Type="MoviesModel.Movie" Role="Movie" Multiplicity="0..1" />
+          <End Type="MoviesModel.Review" Role="Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movie">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Genre_Movie">
+          <End Type="MoviesModel.Movie" Role="Movie" Multiplicity="0..1" />
+          <End Type="MoviesModel.Genre" Role="Genre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movie">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Genre">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MoviesModelStoreContainer" CdmEntityContainer="MoviesEntities">
+          <EntitySetMapping Name="Genres">
+            <EntityTypeMapping TypeName="MoviesModel.Genre">
+              <MappingFragment StoreEntitySet="Genre">
+                <ScalarProperty Name="MovieId" ColumnName="MovieId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Movies">
+            <EntityTypeMapping TypeName="MoviesModel.Movie">
+              <MappingFragment StoreEntitySet="Movie">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Genre" ColumnName="Genre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reviews">
+            <EntityTypeMapping TypeName="MoviesModel.Review">
+              <MappingFragment StoreEntitySet="Review">
+                <ScalarProperty Name="MovieId" ColumnName="MovieId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Summary" ColumnName="Summary" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Reviewer" ColumnName="Reviewer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

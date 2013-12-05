@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@model IEnumerable<CastleWindsor_demo.Domain.Employee>
+
+<h2>Index</h2>
+
+<ul>
+    @foreach(var item in Model)
+    {
+        <li>@string.Format("{0} {1}", item.Forename, item.Surname)</li>
+    }
+</ul>

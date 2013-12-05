@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@section Head  {
+    <style>
+        ul
+        {
+            float: left;
+            width: 105px;
+            background: silver;
+            padding: 10px;
+            color: Black;
+            margin: 10px;
+        }
+        ul li
+        {
+            padding: 5px;
+            margin: 5px;
+            background-color: white;
+            cursor: pointer;
+        }
+    </style>
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var source;
+            var destination;
+            var fn = function (event, ui) {
+                $("#droppable").append($(ui.draggable[0]).removeAttr("style"));
+            };
+            var fn1 = function (event, ui) {
+                $("#draggable").append($(ui.draggable[0]).removeAttr("style"));
+            };
+            $("#draggable li").draggable();
+            $("#droppable").droppable({ drop: fn });
+            $("#droppable li").draggable();
+            $("#draggable").droppable({ drop: fn1 });
+            $("#basket").click(function () {
+                var textArray = $.map($("#droppable li"),
+                function (item) {
+                    return $(item).text();
+                });
+            });
+        });
+    </script>
+}    
+    
+ <ul id="draggable">
+        <li>hi 1</li>
+        <li>hi 2</li>
+        <li>hi 3</li>
+        <li>hi 4</li>
+        <li>hi 5</li>
+        <li>hi 6</li>
+        <li>hi 7</li>
+        <li>hi 8</li>
+        <li>hi 9</li>
+    </ul>
+    <ul id="droppable">
+    </ul>
+    <br />
+    <input id="basket" type="button" value="get baskets Values" />
+

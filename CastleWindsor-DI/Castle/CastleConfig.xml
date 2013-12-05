@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <components>
+    <component
+       id="employeeService"
+       service="CastleWindsor_DI.Services.IEmployeeService, CastleWindsor-DI"
+       type="CastleWindsor_DI.Services.EmployeeService, CastleWindsor-DI"
+       lifestyle="Transient">
+    </component>
+  </components>
+</configuration>
